@@ -1,4 +1,12 @@
 {
+  "autoload": {
+    "psr-4": {
+      "Util\\": "util/"
+    },
+    "files": [
+      "util/db_connect.php"
+    ]
+  },
   "require": {
     "fakerphp/faker": "^1.23"
   }
