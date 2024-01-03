@@ -7,7 +7,7 @@ $startTime = microtime(true);
 if (($handle = fopen(dirname(__DIR__) . '/data/user.csv', 'r')) !== FALSE) {
     fgetcsv($handle, 2000, ","); // Skip header
     $insertData = [];
-    $batchSize = 5000;
+    $batchSize = 10000;
     $conn->begin_transaction(); // Start the transaction before the loop
 
     while (($data = fgetcsv($handle, 2000, ",")) !== FALSE) {
@@ -17,16 +17,16 @@ if (($handle = fopen(dirname(__DIR__) . '/data/user.csv', 'r')) !== FALSE) {
         $address = $conn->real_escape_string($data[3]);
         $birthday = $conn->real_escape_string($data[4]);
 
-        $insertData[] = "('$id', '$firstName', ...)";
+        $insertData[] = "('$id', '$firstName', '$lastName', '$address', '$birthday')";
 
         if (count($insertData) == $batchSize) {
-            $query = "INSERT INTO user ... VALUES " . implode(',', $insertData);
+            $query = "INSERT INTO user (id, first_name, last_name, address, birthday) VALUES " . implode(',', $insertData);
             if (!$conn->query($query)) {
                 echo "Error: " . $conn->error . "\n";
             }
             $insertData = [];
-            $conn->commit(); // Commit the current transaction
-            $conn->begin_transaction(); // Start a new transaction
+            // $conn->commit(); // Commit the current transaction
+            // $conn->begin_transaction(); // Start a new transaction
         }
     }
 
