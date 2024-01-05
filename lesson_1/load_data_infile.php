@@ -5,7 +5,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 $conn = get_database_connection();
 
 // Start timing
-$startTime = microtime(true);
+$start_time = microtime(true);
 
 $query = "LOAD DATA INFILE '../../../htdocs/exercise/data/user.csv' INTO TABLE user "
     . "FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' "  // Escaping the double quote
@@ -16,14 +16,14 @@ $query = "LOAD DATA INFILE '../../../htdocs/exercise/data/user.csv' INTO TABLE u
 $result = $conn->query($query);
 
 // End timing
-$endTime = microtime(true);
-$duration = $endTime - $startTime;
+$end_time = microtime(true);
+$duration = $end_time - $start_time;
 
 if (!$result) {
-    echo "Error: " . $conn->error;
+    echo 'Error: ' . $conn->error;
 } else {
-    echo "Data loaded successfully.\n";
-    echo "Load data completed in $duration seconds.";
+    echo 'Data loaded successfully.' . PHP_EOL;
+    echo 'Load data completed in ' . $duration . ' seconds.';
 }
 
 // Close the database connection

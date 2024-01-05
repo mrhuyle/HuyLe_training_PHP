@@ -13,20 +13,20 @@ $faker = Faker\Factory::create();
 $conn->autocommit(FALSE);
 
 // Start timing
-$startTime = microtime(true);
+$start_time = microtime(true);
 
 // Insert 10 million records
 for ($i = 1; $i <= 10000000; $i++) {
     $id = $i;
-    $firstName = $conn->real_escape_string($faker->firstName);
-    $lastName = $conn->real_escape_string($faker->lastName);
+    $first_name = $conn->real_escape_string($faker->firstName);
+    $last_name = $conn->real_escape_string($faker->lastName);
     $address = $conn->real_escape_string($faker->address);
-    $birthday = $faker->dateTimeThisCentury->format('M-d-Y');
+    $birthday = $faker->dateTimeThisCentury->format('Y-m-d'); // Changed to standard 'Y-m-d' format
 
-    $query = "INSERT INTO user (id, first_name, last_name, address, birthday) VALUES ($id, '$firstName', '$lastName', '$address', '$birthday')";
+    $query = "INSERT INTO user (id, first_name, last_name, address, birthday) VALUES ($id, '$first_name', '$last_name', '$address', '$birthday')";
 
     if (!$conn->query($query)) {
-        echo "Error: " . $conn->error;
+        echo 'Error: ' . $conn->error;
         $conn->rollback();
         exit();
     }
@@ -41,11 +41,11 @@ for ($i = 1; $i <= 10000000; $i++) {
 $conn->commit();
 
 // End timing for final batch and calculate duration
-$endTime = microtime(true);
-$duration = $endTime - $startTime;
-echo "Final batch committed in $duration seconds.\n";
+$end_time = microtime(true);
+$duration = $end_time - $start_time;
+echo 'Final batch committed in ' . $duration . ' seconds.' . PHP_EOL;
 
 // Close the connection
 $conn->close();
 
-echo "Data insertion complete.";
+echo 'Data insertion complete.';

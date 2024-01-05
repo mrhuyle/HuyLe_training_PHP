@@ -5,14 +5,14 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 $conn = get_database_connection();
 
 // Start timing
-$startTime = microtime(true);
+$start_time = microtime(true);
 
 // Define the path for the output CSV file
-$outputFile = '../../../htdocs/exercise/data/exported_user_data.csv'; // Update with the absolute path
+$output_file = '../../../htdocs/exercise/data/exported_user_data.csv'; // Update with the absolute path
 
 // Construct the query for SELECT INTO OUTFILE, including the table name
 $query = "SELECT id, first_name, last_name, address, birthday 
-          INTO OUTFILE '" . $conn->real_escape_string($outputFile) . "' 
+          INTO OUTFILE '" . $conn->real_escape_string($output_file) . "' 
           FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' 
           LINES TERMINATED BY '\\n'
           FROM user"; // Include the table name here
@@ -20,14 +20,14 @@ $query = "SELECT id, first_name, last_name, address, birthday
 $result = $conn->query($query);
 
 // End timing
-$endTime = microtime(true);
-$duration = $endTime - $startTime;
+$end_time = microtime(true);
+$duration = $end_time - $start_time;
 
 if (!$result) {
-    echo "Error: " . $conn->error;
+    echo 'Error: ' . $conn->error;
 } else {
-    echo "Data exported successfully.\n";
-    echo "Export data completed in $duration seconds.";
+    echo 'Data exported successfully.' . PHP_EOL;
+    echo 'Export data completed in ' . $duration . ' seconds.';
 }
 
 // Close the database connection

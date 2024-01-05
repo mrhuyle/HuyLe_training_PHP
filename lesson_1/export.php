@@ -8,11 +8,11 @@ $time_start = microtime(true);
 $conn = get_database_connection();
 
 // User input values
-$searchAddress = isset($_POST["searchAddress"]) ? $_POST["searchAddress"] : '';
-$sortOrder = isset($_POST["sortOrder"]) ? $_POST["sortOrder"] : 'ASC';
+$search_address = isset($_POST['searchAddress']) ? $_POST['searchAddress'] : '';
+$sort_order = isset($_POST['sortOrder']) ? $_POST['sortOrder'] : 'ASC';
 
 // Define the filename for the exported CSV
-$filename = "user_data_download.csv";
+$filename = 'user_data_download.csv';
 
 // Set response headers for CSV download
 header('Content-Type: text/csv');
@@ -31,11 +31,10 @@ while (true) {
     // Query to select data from the database with LIMIT and OFFSET
     $query = "SELECT id, first_name, last_name, address, birthday FROM user_test_upload ";
 
-
-    if (!empty($searchAddress)) {
-        $query .= "WHERE address LIKE '%" . $conn->real_escape_string($searchAddress) . "%' ";
+    if (!empty($search_address)) {
+        $query .= "WHERE address LIKE '%" . $conn->real_escape_string($search_address) . "%' ";
     }
-    $query .= "ORDER BY STR_TO_DATE(birthday, '%b-%d-%Y') $sortOrder LIMIT $limit OFFSET $offset";
+    $query .= "ORDER BY STR_TO_DATE(birthday, '%b-%d-%Y') $sort_order LIMIT $limit OFFSET $offset";
 
     // Execute the query
     $result = $conn->query($query);
@@ -62,7 +61,7 @@ $time_end = microtime(true);
 
 // Calculate and output duration
 $time_duration = $time_end - $time_start;
-echo "Export Time: " . $time_duration . " seconds";
+echo 'Export Time: ' . $time_duration . ' seconds';
 
 // Close the database connection
 $conn->close();
