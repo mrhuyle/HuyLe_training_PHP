@@ -5,7 +5,7 @@ namespace Util;
 class Config
 {
     /**
-     * Database hose
+     * Database host
      * @var string
      */
     const DB_HOST = 'localhost';
@@ -33,4 +33,10 @@ class Config
      * @var boolean
      */
     const SHOW_ERRORS = TRUE;
+
+    /**
+     * Path to SQLite database file
+     * @var string
+     */
+    const SQLITE_FILE = '/htdocs/exercise/data/ten_million_records.db';
 }

@@ -3,7 +3,7 @@
 use Util\Config;
 
 /**
- * Get database connection
+ * Get database MySQLi connection
  * 
  * @return mixed
  */
@@ -19,4 +19,26 @@ function get_database_connection()
     }
 
     return $conn;
+}
+
+/**
+ * Get database SQLite connection
+ * 
+ * @return \SQLite
+ */
+function get_database_connection_sqlite()
+{
+    try {
+        $conn = new \SQLite3(Config::SQLITE_FILE);
+
+        // Set error mode to exceptions
+        $conn->enableExceptions(true);
+
+        return $conn;
+    } catch (\Exception $e) {
+        if (Config::SHOW_ERRORS) {
+            die('Connection failed: ' . $e->getMessage());
+        }
+        return null;
+    }
 }
